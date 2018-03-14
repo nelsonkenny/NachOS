@@ -1,0 +1,50 @@
+synch.cc:80:    Interrupt *interrupt = kernel->interrupt;
+synch.cc:81:    Thread *currentThread = kernel->currentThread;
+synch.cc:107:    Interrupt *interrupt = kernel->interrupt;
+synch.cc:113:    kernel->scheduler->ReadyToRun(queue->RemoveFront());
+scheduler.cc:59:    ASSERT(kernel->interrupt->getLevel() == IntOff);
+scheduler.cc:77:    ASSERT(kernel->interrupt->getLevel() == IntOff);
+scheduler.cc:95://	The global variable kernel->currentThread becomes nextThread.
+scheduler.cc:106:    Thread *oldThread = kernel->currentThread;
+scheduler.cc:108:    ASSERT(kernel->interrupt->getLevel() == IntOff);
+scheduler.cc:123:    kernel->currentThread = nextThread;  // switch to the next thread
+scheduler.cc:138:    ASSERT(kernel->interrupt->getLevel() == IntOff);
+main.cc:113:    if (!kernel->fileSystem->Create(to, fileLength)) {   // Create Nachos file
+main.cc:119:    openFile = kernel->fileSystem->Open(to);
+main.cc:147:    if ((openFile = kernel->fileSystem->Open(name)) == NULL) {
+main.cc:270:    kernel->Initialize();
+main.cc:277:      kernel->ThreadSelfTest();  // test threads and synchronization
+main.cc:280:      kernel->ConsoleTest();   // interactive test of the synchronized console
+main.cc:283:      kernel->NetworkTest();   // two-machine test of the network
+main.cc:288:      kernel->fileSystem->Remove(removeFileName);
+main.cc:294:      kernel->fileSystem->Print();
+main.cc:297:      kernel->fileSystem->List();
+main.cc:318:    kernel->interrupt->Halt();
+alarm.cc:49:    Interrupt *interrupt = kernel->interrupt;
+synch.h:76:    		return lockHolder == kernel->currentThread; }
+thread.cc:66:    ASSERT(this != kernel->currentThread);
+thread.cc:94:    Interrupt *interrupt = kernel->interrupt;
+thread.cc:95:    Scheduler *scheduler = kernel->scheduler;
+thread.cc:149:    ASSERT(this == kernel->currentThread);
+thread.cc:152:    kernel->scheduler->CheckToBeDestroyed();
+thread.cc:153:    kernel->interrupt->Enable();
+thread.cc:174:    (void) kernel->interrupt->SetLevel(IntOff);		
+thread.cc:175:    ASSERT(this == kernel->currentThread);
+thread.cc:205:    IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
+thread.cc:207:    ASSERT(this == kernel->currentThread);
+thread.cc:211:    nextThread = kernel->scheduler->FindNextToRun();
+thread.cc:213:	kernel->scheduler->ReadyToRun(this);
+thread.cc:214:	kernel->scheduler->Run(nextThread, FALSE);
+thread.cc:216:    (void) kernel->interrupt->SetLevel(oldLevel);
+thread.cc:244:    ASSERT(this == kernel->currentThread);
+thread.cc:245:    ASSERT(kernel->interrupt->getLevel() == IntOff);
+thread.cc:250:    while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
+thread.cc:251:	kernel->interrupt->Idle();	// no one to run, wait for an interrupt
+thread.cc:254:    kernel->scheduler->Run(nextThread, finishing); 
+thread.cc:265:static void ThreadFinish()    { kernel->currentThread->Finish(); }
+thread.cc:266:static void ThreadBegin() { kernel->currentThread->Begin(); }
+thread.cc:379:	userRegisters[i] = kernel->machine->ReadRegister(i);
+thread.cc:395:	kernel->machine->WriteRegister(i, userRegisters[i]);
+thread.cc:415:        kernel->currentThread->Yield();
+thread.cc:433:    kernel->currentThread->Yield();
+Binary file .synch.cc.swp matches

@@ -1,0 +1,28 @@
+Names: Kenny Nelson & Michael Moore 
+
+
+1- Rationale of the changes we made to any files
+In the synch.cc file, we implemented the functions for the semaphore, the condition variable and the lock. We also implemented the functions for the student-professor synchronization and the producer-consumer bounded buffer problem. And in the synch.h file, we declared the functions implemented in the synch.cc file. 
+We implemented the functions for the semaphore in a way that would allow synchronization to occur without having race conditions.The P & V functions allow processes to wait when shared resources are not available, and get ready to run when the resources are free to be accessed. We implemented counting semaphores which allow an arbitrary way to count available unit of resources. 
+The P function allows the process to wait until semaphore value is greater than 0, then decrement. The checking of the semaphore value and decrementing is done atomically, which means that interrupts are disabled bedore the checking the value and reenabled after the decrementing. While, the V function disables interrupts, wakes up any process waiting to run, increments the semaphore value and reenables interrupts. 
+The lock functionality was implemented using binary semaphores, which means that their values were restricted to only 0 and 1 with 0 meaning the semaphore is busy and the resource cannot be used and 1 meaning the semaphore is free to us and the resource can be used. This functionality uses 2 functions in addition to the constructor and the destructor. The first one was the acquire function, which controls when a thread wants to acquire a lock. If the semaphore that holds the lock is busy, the thread has to waitin a queue until that semaphore is free to access it. The second one is the release funtion which atomically sets the semaphore that holds the lock free and wakes up the next thread waiting for the lock, if any. We also made sure that only the thread that acquired the lock can release to maintain proper synchronization. 
+The condition variable functionality was also implemented using binary semaphores with 3 functions in addition to the constructor and the destructor. The first function(wait) was implemented to atomically release the monitor lock, put the thread that needs to wait to sleep by calling the P function on the semaphore in use, and acquire the monitor lock back. A semaphore is allocated to each waiting thread. The second function (signal)  calls the V function on the semaphore in use to wake up the thread waiting on this condition. This implementation uses the Mesa-Style semantics which allows the semaphore allocated to the waiting thread to re-acquire the monitor lock when waiting up. The third function (broadcast) which wakes up all the threads waiting on thie condition if any. 
+The student-professor synchronization test uses 7 functions:
+- A professor_student_synch_test function to test the problem;
+- An answer_start function that puts the ask semaphore to sleep, so no student can ask a question while the professor is answering a question
+- An answer_done function that wake the ask semaphore up indicating that a student can now ask a question
+- A question_start function that puts the answer semaphore to sleep, so the professor can wait until the student is done to answer a question
+- A question_done function that wakes the answer semaphore up indicating the professor can now answer a question
+- A student function that iterates calls of answer start and answer done
+- A professor function that iterates calls of question start and question done. 
+
+The producer-consumer bounded buffer problem uses 3 functions: 
+- A producer_consumer_test function to test the Producer Consumer Bounded Buffer problem
+- A producer function that allows the producer to add string characters into the buffer
+- A consumer function that allows the consumer to consume each item added in the buffer  
+
+2- How we made those changes
+As aforementioned, We implemented different functions and used different class variables and methods that were already implemented in the program. 
+
+3- The contributions of each member of the team
+Each member of the team contributed both in the brainstorming/researching stage and the coding stage. The brainstorming/researching stage was important because we both did not know much about the concepts in this projects, and did not really know about it. It was a challenging experience, and we were able to rely on each other and the professor's lecture to understand the problems and create solutions. The coding stage was also very important, because then, we had to translate into code our understanding, which was very challenging from the beginning. At times, we practiced pair programming to be more efficient and other times, we practiced divide-and-conquer to be faster. Pair programming helped us in getting started and debugging, and divide-and-conquer helped us get the middle steps done quicker. 
